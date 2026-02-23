@@ -1,9 +1,248 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My Site</title>
-  </head>
-  <body>
-    <h1>Hello from GitHub 🚀</h1>
-  </body>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <title>Sandip Sharma — [Your Tagline / Role]</title>
+  <meta name="description" content="Full-stack developer / Designer / Researcher / [your field] based in Kathmandu. Building things that matter.">
+  
+  <!-- Open Graph / Social sharing -->
+  <meta property="og:title" content="Sandip Sharma">
+  <meta property="og:description" content="I create [what you create]. Passionate about [your interests].">
+  <meta property="og:image" content="https://yourdomain.com/og-image.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon (replace with your own) -->
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- System fonts + nice fallbacks -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #0f172a;
+      --text-light: #334155;
+      --gray: #64748b;
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --border: #e2e8f0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --text: #f1f5f9;
+        --text-light: #cbd5e1;
+        --gray: #94a3b8;
+        --border: #334155;
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100dvh;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    header {
+      padding: 5rem 0 4rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 8vw, 4.8rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.8rem;
+    }
+
+    .tagline {
+      font-size: 1.38rem;
+      color: var(--text-light);
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.6rem;
+      flex-wrap: wrap;
+      margin: 1.5rem 0 3rem;
+    }
+
+    .social-links a {
+      color: var(--gray);
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .social-links a:hover {
+      color: var(--primary);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 1.8rem;
+      border-radius: 9999px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      background: rgba(99, 102, 241, 0.07);
+      border-color: var(--primary);
+    }
+
+    section {
+      padding: 6rem 0;
+    }
+
+    h2 {
+      font-size: 2.4rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      padding: 1.8rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.4);
+      backdrop-filter: blur(8px);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .card { background: rgba(15, 23, 42, 0.6); }
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px -12px rgba(0,0,0,0.12);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <header>
+      <h1>Sandip Sharma</h1>
+      <p class="tagline">
+        Full-stack developer • Open-source enthusiast • Building better digital experiences from Kathmandu
+      </p>
+
+      <div class="social-links">
+        <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+        <a href="https://twitter.com/Sandip76819" target="_blank">X / Twitter</a>
+        <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+        <a href="mailto:hello@sandip.dev">Email</a>
+      </div>
+
+      <div class="buttons">
+        <a href="#projects" class="btn btn-primary">See my work</a>
+        <a href="#contact" class="btn btn-outline">Get in touch</a>
+      </div>
+    </header>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p style="max-width: 65ch; margin: 0 auto; font-size: 1.18rem; text-align: center;">
+        I enjoy turning complex problems into simple, beautiful solutions.<br>
+        Currently focused on <strong>web performance</strong>, <strong>TypeScript</strong>, <strong>modern UI libraries</strong> and <strong>building tools people love to use</strong>.
+      </p>
+    </section>
+
+    <section id="projects">
+      <h2>Selected Projects</h2>
+      <div class="grid">
+        <div class="card">
+          <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem;">Project One</h3>
+          <p style="color: var(--gray);">Short description what it does and which technologies were used. 2–3 lines max.</p>
+        </div>
+        <div class="card">
+          <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem;">Project Two</h3>
+          <p style="color: var(--gray);">Another interesting project. Show what makes it special.</p>
+        </div>
+        <div class="card">
+          <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem;">Open Source Contribution</h3>
+          <p style="color: var(--gray);">Popular repo or tool you contributed significantly to.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" style="text-align: center; padding-bottom: 8rem;">
+      <h2>Let's work together</h2>
+      <p style="font-size: 1.25rem; margin: 1.5rem 0 2.5rem;">
+        I'm currently available for freelance / consulting / interesting opportunities.
+      </p>
+      <a href="mailto:hello@sandip.dev?subject=Hello%20Sandip" class="btn btn-primary" style="font-size: 1.2rem; padding: 1.1rem 2.4rem;">
+        Say Hello →
+      </a>
+    </section>
+
+  </div>
+
+  <footer style="text-align: center; padding: 3rem 0; color: var(--gray); font-size: 0.95rem; border-top: 1px solid var(--border);">
+    <p>© 2026 Sandip Sharma • Made with passion in Kathmandu</p>
+  </footer>
+
+</body>
 </html>
