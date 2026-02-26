@@ -10,11 +10,11 @@
   <!-- Open Graph / Social sharing -->
   <meta property="og:title" content="Sandip Sharma">
   <meta property="og:description" content="Virtual world inside the virtual simulation. Coder & explorer.">
-  <meta property="og:image" content="sandeep.jpeg"> <!-- Optional: uses your photo for social previews -->
+  <meta property="og:image" content="sandeep.jpeg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Favicon (add your own later) -->
+  <!-- Favicon -->
   <link rel="icon" href="/favicon.ico">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
@@ -32,6 +32,8 @@
       --primary: #6366f1;
       --primary-dark: #4f46e5;
       --border: #e2e8f0;
+      --success: #10b981;
+      --error: #ef4444;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -58,85 +60,220 @@
     .social-links a { color: var(--gray); font-size: 1.1rem; text-decoration: none; transition: color 0.2s; }
     .social-links a:hover { color: var(--primary); }
     .buttons { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
-    .btn { display: inline-block; padding: 0.9rem 1.8rem; border-radius: 9999px; font-weight: 500; text-decoration: none; transition: all 0.2s; border: 1px solid transparent; }
+    .btn { display: inline-block; padding: 0.9rem 1.8rem; border-radius: 9999px; font-weight: 500; text-decoration: none; transition: all 0.2s; border: 1px solid transparent; cursor: pointer; }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
     .btn-outline { border-color: var(--border); color: var(--text); }
     .btn-outline:hover { background: rgba(99, 102, 241, 0.07); border-color: var(--primary); }
+    .btn-success { background: var(--success); color: white; border-color: var(--success); }
+    .btn-error { background: var(--error); color: white; border-color: var(--error); }
     section { padding: 6rem 0; }
     h2 { font-size: 2.4rem; margin-bottom: 2.5rem; text-align: center; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
-    .card { padding: 1.8rem; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,0.4); backdrop-filter: blur(8px); transition: transform 0.25s, box-shadow 0.25s; }
+    .card { padding: 1.8rem; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,0.4); backdrop-filter: blur(8px); transition: transform 0.25s, box-shadow 0.25s; position: relative; }
     @media (prefers-color-scheme: dark) { .card { background: rgba(15, 23, 42, 0.6); } }
     .card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -12px rgba(0,0,0,0.12); }
-    @media (prefers-reduced-motion: reduce) { * { transition: none !important; transform: none !important; } }
+    .card.locked { 
+      background: linear-gradient(135deg, rgba(255,69,0,0.12), rgba(139,0,0,0.08)); 
+      border: 3px solid transparent; 
+      border-image: linear-gradient(45deg, #ff4500, #ff8c00, #ff4500) 1;
+      box-shadow: 0 0 35px rgba(255,69,0,0.5), inset 0 0 15px rgba(255,140,0,0.2);
+      animation: fireBurn 5s infinite ease-in-out;
+    }
+    .card.locked::before { content: '🔒'; position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; opacity: 0.8; }
+    @keyframes fireBurn {
+      0%, 100% { box-shadow: 0 0 35px rgba(255,69,0,0.5), inset 0 0 15px rgba(255,140,0,0.2); transform: scale(1); }
+      50% { box-shadow: 0 0 60px rgba(255,69,0,0.8), inset 0 0 30px rgba(255,140,0,0.35); transform: scale(1.02); }
+    }
+
+    /* Auth Modal Styles */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8); 
+      display: none; align-items: center; justify-content: center; 
+      z-index: 10000; backdrop-filter: blur(4px);
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: var(--bg); border: 1px solid var(--border); 
+      border-radius: 16px; padding: 2.5rem; max-width: 420px; 
+      width: 90%; box-shadow: 0 25px 70px rgba(0,0,0,0.5);
+      position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .close-btn {
+      position: absolute; top: 1rem; right: 1.5rem; 
+      font-size: 2rem; color: var(--gray); cursor: pointer;
+      font-weight: bold; line-height: 1;
+    }
+    .close-btn:hover { color: var(--text); }
+    .auth-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .auth-form input {
+      padding: 1rem; border-radius: 12px; border: 2px solid var(--border);
+      background: var(--bg); color: var(--text); font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .auth-form input:focus {
+      outline: none; border-color: var(--primary); 
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    .auth-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .auth-tab { flex: 1; padding: 0.8rem; border: none; background: none; font-weight: 500; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
+    .auth-tab.active { background: var(--primary); color: white; }
+    .login-message { 
+      padding: 0.8rem; border-radius: 8px; font-weight: 500; 
+      text-align: center; margin-bottom: 1rem; display: none;
+    }
+    .login-message.success { background: rgba(16, 185, 129, 0.2); color: var(--success); border: 1px solid var(--success); display: block; }
+    .login-message.error { background: rgba(239, 68, 68, 0.2); color: var(--error); border: 1px solid var(--error); display: block; }
+    
+    /* Reveal button & Rickroll */
+    .reveal-section { display: none; text-align: center; margin-top: 1.5rem; }
+    .reveal-section.show { display: block; animation: slideDown 0.4s ease-out; }
+    .btn-reveal { background: #10b981 !important; color: white !important; font-size: 1.1rem; padding: 1rem 2rem !important; width: 100%; }
+    .btn-logout { background: #ef4444 !important; color: white !important; font-size: 0.95rem; padding: 0.6rem 1.2rem !important; margin-left: 0.5rem; }
+    .fire-shimmer { 
+      background: linear-gradient(90deg, #ff4500, #ffd700, #ff4500); 
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+      background-size: 200% 100%; animation: fireShimmer 4s infinite linear; 
+    }
+    @keyframes fireShimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
   </style>
 </head>
 <body>
-
   <div class="container">
-
+    <!-- Header and other sections unchanged -->
     <header>
       <h1>Sandip Sharma</h1>
-      
-      <img 
-        src="sandeep.jpeg" 
-        alt="Sandip Sharma" 
-        style="
-          width: 180px; 
-          height: 180px; 
-          border-radius: 50%; 
-          object-fit: cover; 
-          display: block; 
-          margin: 2rem auto 1.5rem; 
-          box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
-          transition: transform 0.3s ease;
-        "
-        onmouseover="this.style.transform='scale(1.05)'"
-        onmouseout="this.style.transform='scale(1)'"
-      >
-
-      <p class="tagline">
-        Computer Engineering Student.<br>
-        Coder • Explorer • From Kathmandu
-      </p>
-
+      <img src="sandeep.jpeg" alt="Sandip Sharma" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; display: block; margin: 2rem auto 1.5rem; box-shadow: 0 8px 20px rgba(0,0,0,0.15); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <p class="tagline">Computer Engineering Student.<br>Coder • Explorer • From Kathmandu</p>
       <div class="social-links">
         <a href="https://github.com/sandip-sharma1" target="_blank" rel="noopener">GitHub</a>
         <a href="https://twitter.com/Sandip76819" target="_blank" rel="noopener">X / Twitter</a>
         <a href="https://www.linkedin.com/in/sandip-sharma-0a7b98324" target="_blank" rel="noopener">LinkedIn</a>
         <a href="mailto:sandip20600226@gmail.com">Email</a>
       </div>
-
       <div class="buttons">
         <a href="#projects" class="btn btn-primary">See my work</a>
         <a href="#contact" class="btn btn-outline">Get in touch</a>
       </div>
     </header>
 
-    <!-- Rest of your sections remain the same -->
-    <section id="about">
-      <h2>About Me</h2>
-      <p style="max-width: 65ch; margin: 0 auto; font-size: 1.18rem; text-align: center;">
-        Passionate about code, simulations, and pushing the boundaries of what's possible in the digital realm.<br>
-        Always experimenting, learning, and building.
-      </p>
+    <!-- Skills section unchanged -->
+    <section id="skills">
+      <h2>Tech Stack & Skills</h2>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        <div class="card">
+          <h3 style="font-size: 1.4rem; margin-bottom: 1rem; color: var(--primary);">Programming Languages</h3>
+          <ul style="list-style: none; font-size: 1.1rem; color: var(--text-light); line-height: 2;">
+            <li>->Python (core + ML/NLP/desktop apps)</li>
+            <li>->C / C++</li>
+            <li>->HTML & CSS</li>
+            <li>->JavaScript</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="font-size: 1.4rem; margin-bottom: 1rem; color: var(--primary);">Machine Learning & AI</h3>
+          <ul style="list-style: none; font-size: 1.1rem; color: var(--text-light); line-height: 2;">
+            <li>->PyTorch</li>
+            <li>->TensorFlow</li>
+            <li>->Computer Vision + NLP</li>
+            <li>->Transformers</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="font-size: 1.4rem; margin-bottom: 1rem; color: var(--primary);">Desktop & Databases</h3>
+          <ul style="list-style: none; font-size: 1.1rem; color: var(--text-light); line-height: 2;">
+            <li>->PyQt (GUI apps like ExpenseVault)</li>
+            <li>->MySQL (schema design, queries, connectors)</li>
+            <li>->Data visualization (matplotlib, charts)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="font-size: 1.4rem; margin-bottom: 1rem; color: var(--primary);">Systems & Others</h3>
+          <ul style="list-style: none; font-size: 1.1rem; color: var(--text-light); line-height: 2;">
+            <li>->Linux (command line, scripting, dev env)</li>
+            <li>->macOS(Primary development environment)</li>
+            <li>->Embedded Systems basics</li>
+            <li>->Rule-based NLP</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section id="projects">
       <h2>Selected Projects</h2>
       <div class="grid">
-        <div class="card">
-          <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem;">Project One</h3>
-          <p style="color: var(--gray);">Coming soon — drop a line if you'd like to collaborate!</p>
+        <!-- 🔥 PERFECT LOGIN → REVEAL → RICKROLL REDIRECT 🔥 -->
+        <div class="card locked" id="voice-clone-card">
+          <h3 class="fire-shimmer" style="font-size: 1.6rem; margin-bottom: 0.8rem; font-weight: 800; text-shadow: 0 0 10px #ff4500;">
+            Absolute Banger dropping soon (5090 burning in lab 🔥)
+          </h3>
+
+          <div id="teaser-content" style="color: #ffdab9; margin-bottom: 1.2rem; font-size: 1.05rem; line-height: 1.6;">
+            <p>Something massive is cooking... </p>
+            <p style="margin-top: 1rem;">Create account with your Gmail → Login → Click Reveal → Unlock the vault </p>
+          </div>
+
+          <!-- ✅ LOGGED IN: REVEAL + LOGOUT ✅ -->
+          <div id="reveal-section" class="reveal-section">
+            <p style="color: #ffdab9; font-size: 1.05rem; margin-bottom: 1.5rem;">
+              Welcome to the vault, <span id="welcome-user"></span>! 👋<br>
+              Ready for the ultimate reveal? Click below...
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <button id="reveal-btn" class="btn btn-reveal"> REVEAL SECRET PROJECT</button>
+              <button id="logout-btn" class="btn btn-logout">🚪 Logout</button>
+            </div>
+          </div>
+
+          <div id="login-section" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <button id="auth-btn" class="btn" style="background: #ff4500; color: white; border: none; padding: 0.8rem 1.6rem; border-radius: 9999px; font-weight: 600;">
+              🔐 Sign Up / Login
+            </button>
+            <span style="color: #ff4500; font-weight: 700; font-size: 1.15rem; text-shadow: 0 0 8px #ff4500;">
+              Q1 2026 Drop
+            </span>
+          </div>
         </div>
+
+        <!-- Other projects unchanged -->
         <div class="card">
-          <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem;">Project Two</h3>
-          <p style="color: var(--gray);">More experiments in progress...</p>
+          <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem;">Image Captioning with CNN + Transformer</h3>
+          <p style="color: var(--primary); font-weight: 500; margin-bottom: 0.6rem;">Vision-Language Model • Flickr8k Dataset</p>
+          <p style="color: var(--gray); margin-bottom: 1.2rem;">End-to-end system that generates natural language captions for images using CNN + Transformer.</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="https://github.com/sandip-sharma1/Image-Captioning-using-CNN-Transformer" target="_blank" rel="noopener" style="color: var(--primary); font-weight: 500; text-decoration: underline;">View on GitHub →</a>
+            <span style="color: var(--gray); font-size: 0.95rem;">Python • Transformer • CNN</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem;">ExpenseVault</h3>
+          <p style="color: var(--primary); font-weight: 500; margin-bottom: 0.6rem;">Personal Finance Tracker • Desktop App</p>
+          <p style="color: var(--gray); margin-bottom: 1.2rem;">PyQt6 GUI + MySQL. Track expenses, budgets, analytics with pie charts.</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="https://github.com/sandip-sharma1/ExpanseVault" target="_blank" rel="noopener" style="color: var(--primary); font-weight: 500; text-decoration: underline;">View on GitHub →</a>
+            <span style="color: var(--gray); font-size: 0.95rem;">Python • PyQt6 • MySQL</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size: 1.4rem; margin-bottom: 0.8rem;">Nepali Conversation-Aware Tokenizer</h3>
+          <p style="color: var(--primary); font-weight: 500; margin-bottom: 0.6rem;">Syllable-Based Rule Tokenizer for Nepali</p>
+          <p style="color: var(--gray); margin-bottom: 1.2rem;">Pronunciation-aware tokenizer handling Nepali conjuncts (क्ष, त्र, ज्ञ).</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="https://github.com/sandip-sharma1/Nepali-Conversation-Aware-Tokenizer" target="_blank" rel="noopener" style="color: var(--primary); font-weight: 500; text-decoration: underline;">View on GitHub →</a>
+            <span style="color: var(--gray); font-size: 0.95rem;">Python • NLP • Nepali</span>
+          </div>
         </div>
       </div>
     </section>
-
+  </div>
     <section id="contact" style="text-align: center; padding-bottom: 8rem;">
       <h2>Let's connect</h2>
       <p style="font-size: 1.25rem; margin: 1.5rem 0 2.5rem;">
@@ -146,12 +283,159 @@
         Say Hello →
       </a>
     </section>
+  <!-- AUTHENTICATION MODAL -->
+  <div id="auth-modal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-btn" id="close-auth">&times;</span>
+      <h3 style="text-align: center; margin-bottom: 1rem; color: var(--primary);">Access Secret Project</h3>
+      <p style="text-align: center; color: var(--text-light); margin-bottom: 1.5rem;">Create account → Verify Gmail → Unlock vault</p>
+      
+      <div id="auth-message" class="login-message"></div>
+      
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('signup')">Sign Up</button>
+        <button class="auth-tab" onclick="switchTab('login')">Login</button>
+      </div>
 
+      <form class="auth-form" id="signup-form">
+        <input type="email" id="signup-email" placeholder="yourname@gmail.com" required>
+        <input type="password" id="signup-password" placeholder="Create password (8+ chars)" minlength="8" required>
+        <input type="password" id="signup-confirm" placeholder="Confirm password" required>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">Create Account</button>
+      </form>
+
+      <form class="auth-form" id="login-form" style="display: none;">
+        <input type="email" id="login-email" placeholder="yourname@gmail.com" required>
+        <input type="password" id="login-password" placeholder="Enter your password" required>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">Login</button>
+      </form>
+    </div>
   </div>
 
-  <footer style="text-align: center; padding: 3rem 0; color: var(--gray); font-size: 0.95rem; border-top: 1px solid var(--border);">
+  <footer style="text-align: center; padding: 3rem 0; color: var(--gray); font-size: 0.95rem; border-top: 1px solid var(--border); margin-top: 5rem;">
     <p>© 2026 Sandip Sharma • Kathmandu</p>
   </footer>
 
+  <script>
+    // 🔥 FIXED RICKROLL - MULTIPLE REDIRECT METHODS 🔥
+    let users = JSON.parse(localStorage.getItem('projectUsers')) || {};
+    let currentUser = null;
+    let isSignup = true;
+
+    // DOM Elements - LOAD EARLY
+    const authModal = document.getElementById('auth-modal');
+    const revealSection = document.getElementById('reveal-section');
+    const teaserContent = document.getElementById('teaser-content');
+    const loginSection = document.getElementById('login-section');
+    const authBtn = document.getElementById('auth-btn');
+    const revealBtn = document.getElementById('reveal-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const welcomeUser = document.getElementById('welcome-user');
+    const voiceCloneCard = document.getElementById('voice-clone-card');
+
+    // Check if already logged in
+    const savedUser = localStorage.getItem('currentVoiceUser');
+    if (savedUser && users[savedUser]) {
+      currentUser = savedUser;
+      showRevealSection();
+    }
+
+    function switchTab(tab) {
+      isSignup = tab === 'signup';
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('signup-form').style.display = isSignup ? 'block' : 'none';
+      document.getElementById('login-form').style.display = isSignup ? 'none' : 'block';
+    }
+
+    // Signup
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('signup-email').value.trim().toLowerCase();
+      const password = document.getElementById('signup-password').value;
+      const confirm = document.getElementById('signup-confirm').value;
+
+      if (!email.endsWith('@gmail.com')) return showMessage('Please use Gmail', 'error');
+      if (password.length < 8) return showMessage('Password 8+ chars', 'error');
+      if (password !== confirm) return showMessage('Passwords mismatch', 'error');
+      if (users[email]) return showMessage('Account exists!', 'error');
+
+      users[email] = { email, password: btoa(password), created: new Date().toISOString() };
+      localStorage.setItem('projectUsers', JSON.stringify(users));
+      showMessage('Account created! Login now.', 'success');
+      setTimeout(() => switchTab('login'), 1500);
+    });
+
+    // Login
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      const password = document.getElementById('login-password').value;
+
+      if (!users[email] || users[email].password !== btoa(password)) {
+        showMessage('Wrong credentials!', 'error');
+        document.querySelector('.auth-form').style.animation = 'shake 0.5s';
+        return;
+      }
+
+      currentUser = email;
+      localStorage.setItem('currentVoiceUser', email);
+      showMessage('Login successful!', 'success');
+      
+      setTimeout(() => {
+        authModal.classList.remove('active');
+        showRevealSection();
+      }, 1200);
+    });
+
+    function showMessage(text, type) {
+      const msgEl = document.getElementById('auth-message');
+      msgEl.textContent = text;
+      msgEl.className = `login-message ${type}`;
+    }
+
+    function showRevealSection() {
+      revealSection.classList.add('show');
+      teaserContent.style.display = 'none';
+      loginSection.style.display = 'none';
+      welcomeUser.textContent = currentUser.split('@')[0];
+      voiceCloneCard.classList.remove('locked');
+    }
+
+    // 🔥 ULTRA RELIABLE RICKROLL - 3 METHODS 🔥
+    revealBtn.addEventListener('click', function() {
+      this.innerHTML = ' LAUNCHING...';
+      this.disabled = true;
+      
+      // METHOD 1: window.open (new tab)
+      setTimeout(() => {
+        window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+        
+        // METHOD 2: location.href (current tab fallback)
+        window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        
+        console.log('🎤 RICKROLLED!');
+      }, 800);
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', function() {
+      localStorage.removeItem('currentVoiceUser');
+      currentUser = null;
+      revealSection.classList.remove('show');
+      teaserContent.style.display = 'block';
+      loginSection.style.display = 'flex';
+      authBtn.textContent = '🔐 Sign Up / Login';
+      voiceCloneCard.classList.add('locked');
+      location.reload();
+    });
+
+    // Modal controls
+    authBtn.addEventListener('click', () => authModal.classList.add('active'));
+    document.getElementById('close-auth').addEventListener('click', () => authModal.classList.remove('active'));
+    authModal.addEventListener('click', (e) => {
+      if (e.target === authModal) authModal.classList.remove('active');
+    });
+  </script>
 </body>
 </html>
