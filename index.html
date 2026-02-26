@@ -7,18 +7,15 @@
   <title>Sandip Sharma — Building in the Virtual World</title>
   <meta name="description" content="Sandip Sharma from Kathmandu. Exploring code, simulations, and digital experiences.">
   
-  <!-- Open Graph / Social sharing -->
   <meta property="og:title" content="Sandip Sharma">
   <meta property="og:description" content="Virtual world inside the virtual simulation. Coder & explorer.">
   <meta property="og:image" content="sandeep.jpeg">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Favicon -->
   <link rel="icon" href="/favicon.ico">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -79,53 +76,18 @@
       border-image: linear-gradient(45deg, #ff4500, #ff8c00, #ff4500) 1;
       box-shadow: 0 0 35px rgba(255,69,0,0.5), inset 0 0 15px rgba(255,140,0,0.2);
       animation: fireBurn 5s infinite ease-in-out;
+      cursor: pointer;
     }
     .card.locked::before { content: '🔒'; position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; opacity: 0.8; }
+    .card.locked:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 0 80px rgba(255,69,0,0.9), inset 0 0 30px rgba(255,140,0,0.4);
+    }
     @keyframes fireBurn {
       0%, 100% { box-shadow: 0 0 35px rgba(255,69,0,0.5), inset 0 0 15px rgba(255,140,0,0.2); transform: scale(1); }
       50% { box-shadow: 0 0 60px rgba(255,69,0,0.8), inset 0 0 30px rgba(255,140,0,0.35); transform: scale(1.02); }
     }
-
-    /* Auth Modal Styles */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.8); 
-      display: none; align-items: center; justify-content: center; 
-      z-index: 10000; backdrop-filter: blur(4px);
-    }
-    .modal-overlay.active { display: flex; }
-    .modal-content {
-      background: var(--bg); border: 1px solid var(--border); 
-      border-radius: 16px; padding: 2.5rem; max-width: 420px; 
-      width: 90%; box-shadow: 0 25px 70px rgba(0,0,0,0.5);
-      position: relative; max-height: 90vh; overflow-y: auto;
-    }
-    .close-btn {
-      position: absolute; top: 1rem; right: 1.5rem; 
-      font-size: 2rem; color: var(--gray); cursor: pointer;
-      font-weight: bold; line-height: 1;
-    }
-    .close-btn:hover { color: var(--text); }
-    .auth-form { display: flex; flex-direction: column; gap: 1.2rem; }
-    .auth-form input {
-      padding: 1rem; border-radius: 12px; border: 2px solid var(--border);
-      background: var(--bg); color: var(--text); font-size: 1rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .auth-form input:focus {
-      outline: none; border-color: var(--primary); 
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-    }
-    .auth-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
-    .auth-tab { flex: 1; padding: 0.8rem; border: none; background: none; font-weight: 500; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
-    .auth-tab.active { background: var(--primary); color: white; }
-    .login-message { 
-      padding: 0.8rem; border-radius: 8px; font-weight: 500; 
-      text-align: center; margin-bottom: 1rem; display: none;
-    }
-    .login-message.success { background: rgba(16, 185, 129, 0.2); color: var(--success); border: 1px solid var(--success); display: block; }
-    .login-message.error { background: rgba(239, 68, 68, 0.2); color: var(--error); border: 1px solid var(--error); display: block; }
     
-    /* Reveal button & Rickroll */
     .reveal-section { display: none; text-align: center; margin-top: 1.5rem; }
     .reveal-section.show { display: block; animation: slideDown 0.4s ease-out; }
     .btn-reveal { background: #10b981 !important; color: white !important; font-size: 1.1rem; padding: 1rem 2rem !important; width: 100%; }
@@ -137,16 +99,27 @@
     }
     @keyframes fireShimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
     @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    
+    .click-hint {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 69, 0, 0.2);
+      border: 1px solid #ff4500;
+      border-radius: 9999px;
+      color: #ff4500;
+      font-size: 0.9rem;
+      font-weight: 600;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Header and other sections unchanged -->
     <header>
       <h1>Sandip Sharma</h1>
       <img src="sandeep.jpeg" alt="Sandip Sharma" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; display: block; margin: 2rem auto 1.5rem; box-shadow: 0 8px 20px rgba(0,0,0,0.15); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -163,7 +136,6 @@
       </div>
     </header>
 
-    <!-- Skills section unchanged -->
     <section id="skills">
       <h2>Tech Stack & Skills</h2>
       <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
@@ -208,19 +180,20 @@
     <section id="projects">
       <h2>Selected Projects</h2>
       <div class="grid">
-        <!-- 🔥 PERFECT LOGIN → REVEAL → RICKROLL REDIRECT 🔥 -->
-        <div class="card locked" id="voice-clone-card">
+        <!-- 🔥 CLICK = REDIRECT TO LOGIN PAGE 🔥 -->
+        <div class="card locked" id="voice-clone-card" onclick="handleSecretClick()">
           <h3 class="fire-shimmer" style="font-size: 1.6rem; margin-bottom: 0.8rem; font-weight: 800; text-shadow: 0 0 10px #ff4500;">
             Absolute Banger dropping soon (5090 burning in lab 🔥)
           </h3>
 
           <div id="teaser-content" style="color: #ffdab9; margin-bottom: 1.2rem; font-size: 1.05rem; line-height: 1.6;">
             <p>Something massive is cooking... </p>
-            <p style="margin-top: 1rem;">Create account with your Gmail → Login → Click Reveal → Unlock the vault </p>
+            <p style="margin-top: 1rem;">Click to unlock the vault</p>
+            <span class="click-hint">🔐 Click to Access</span>
           </div>
 
           <!-- ✅ LOGGED IN: REVEAL + LOGOUT ✅ -->
-          <div id="reveal-section" class="reveal-section">
+          <div id="reveal-section" class="reveal-section" onclick="event.stopPropagation()">
             <p style="color: #ffdab9; font-size: 1.05rem; margin-bottom: 1.5rem;">
               Welcome to the vault, <span id="welcome-user"></span>! 👋<br>
               Ready for the ultimate reveal? Click below...
@@ -231,10 +204,7 @@
             </div>
           </div>
 
-          <div id="login-section" style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-            <button id="auth-btn" class="btn" style="background: #ff4500; color: white; border: none; padding: 0.8rem 1.6rem; border-radius: 9999px; font-weight: 600;">
-              🔐 Sign Up / Login
-            </button>
+          <div id="login-hint" style="margin-top: 1.5rem; text-align: center;">
             <span style="color: #ff4500; font-weight: 700; font-size: 1.15rem; text-shadow: 0 0 8px #ff4500;">
               Q1 2026 Drop
             </span>
@@ -274,168 +244,73 @@
       </div>
     </section>
   </div>
-    <section id="contact" style="text-align: center; padding-bottom: 8rem;">
-      <h2>Let's connect</h2>
-      <p style="font-size: 1.25rem; margin: 1.5rem 0 2.5rem;">
-        Open to chats, ideas, collabs, or just saying hi.
-      </p>
-      <a href="mailto:sandip20600226@gmail.com?subject=Hey%20Sandip" class="btn btn-primary" style="font-size: 1.2rem; padding: 1.1rem 2.4rem;">
-        Say Hello →
-      </a>
-    </section>
-  <!-- AUTHENTICATION MODAL -->
-  <div id="auth-modal" class="modal-overlay">
-    <div class="modal-content">
-      <span class="close-btn" id="close-auth">&times;</span>
-      <h3 style="text-align: center; margin-bottom: 1rem; color: var(--primary);">Access Secret Project</h3>
-      <p style="text-align: center; color: var(--text-light); margin-bottom: 1.5rem;">Create account → Verify Gmail → Unlock vault</p>
-      
-      <div id="auth-message" class="login-message"></div>
-      
-      <div class="auth-tabs">
-        <button class="auth-tab active" onclick="switchTab('signup')">Sign Up</button>
-        <button class="auth-tab" onclick="switchTab('login')">Login</button>
-      </div>
-
-      <form class="auth-form" id="signup-form">
-        <input type="email" id="signup-email" placeholder="yourname@gmail.com" required>
-        <input type="password" id="signup-password" placeholder="Create password (8+ chars)" minlength="8" required>
-        <input type="password" id="signup-confirm" placeholder="Confirm password" required>
-        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">Create Account</button>
-      </form>
-
-      <form class="auth-form" id="login-form" style="display: none;">
-        <input type="email" id="login-email" placeholder="yourname@gmail.com" required>
-        <input type="password" id="login-password" placeholder="Enter your password" required>
-        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">Login</button>
-      </form>
-    </div>
-  </div>
+  
+  <section id="contact" style="text-align: center; padding-bottom: 8rem;">
+    <h2>Let's connect</h2>
+    <p style="font-size: 1.25rem; margin: 1.5rem 0 2.5rem;">
+      Open to chats, ideas, collabs, or just saying hi.
+    </p>
+    <a href="mailto:sandip20600226@gmail.com?subject=Hey%20Sandip" class="btn btn-primary" style="font-size: 1.2rem; padding: 1.1rem 2.4rem;">
+      Say Hello →
+    </a>
+  </section>
 
   <footer style="text-align: center; padding: 3rem 0; color: var(--gray); font-size: 0.95rem; border-top: 1px solid var(--border); margin-top: 5rem;">
     <p>© 2026 Sandip Sharma • Kathmandu</p>
   </footer>
 
   <script>
-    // 🔥 FIXED RICKROLL - MULTIPLE REDIRECT METHODS 🔥
-    let users = JSON.parse(localStorage.getItem('projectUsers')) || {};
-    let currentUser = null;
-    let isSignup = true;
-
-    // DOM Elements - LOAD EARLY
-    const authModal = document.getElementById('auth-modal');
     const revealSection = document.getElementById('reveal-section');
     const teaserContent = document.getElementById('teaser-content');
-    const loginSection = document.getElementById('login-section');
-    const authBtn = document.getElementById('auth-btn');
-    const revealBtn = document.getElementById('reveal-btn');
-    const logoutBtn = document.getElementById('logout-btn');
+    const loginHint = document.getElementById('login-hint');
     const welcomeUser = document.getElementById('welcome-user');
     const voiceCloneCard = document.getElementById('voice-clone-card');
+    const revealBtn = document.getElementById('reveal-btn');
+    const logoutBtn = document.getElementById('logout-btn');
 
-    // Check if already logged in
+    // Check if user is logged in
     const savedUser = localStorage.getItem('currentVoiceUser');
-    if (savedUser && users[savedUser]) {
-      currentUser = savedUser;
-      showRevealSection();
-    }
+    const isLoggedIn = !!savedUser;
 
-    function switchTab(tab) {
-      isSignup = tab === 'signup';
-      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-      event.target.classList.add('active');
-      document.getElementById('signup-form').style.display = isSignup ? 'block' : 'none';
-      document.getElementById('login-form').style.display = isSignup ? 'none' : 'block';
-    }
-
-    // Signup
-    document.getElementById('signup-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('signup-email').value.trim().toLowerCase();
-      const password = document.getElementById('signup-password').value;
-      const confirm = document.getElementById('signup-confirm').value;
-
-      if (!email.endsWith('@gmail.com')) return showMessage('Please use Gmail', 'error');
-      if (password.length < 8) return showMessage('Password 8+ chars', 'error');
-      if (password !== confirm) return showMessage('Passwords mismatch', 'error');
-      if (users[email]) return showMessage('Account exists!', 'error');
-
-      users[email] = { email, password: btoa(password), created: new Date().toISOString() };
-      localStorage.setItem('projectUsers', JSON.stringify(users));
-      showMessage('Account created! Login now.', 'success');
-      setTimeout(() => switchTab('login'), 1500);
-    });
-
-    // Login
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value.trim().toLowerCase();
-      const password = document.getElementById('login-password').value;
-
-      if (!users[email] || users[email].password !== btoa(password)) {
-        showMessage('Wrong credentials!', 'error');
-        document.querySelector('.auth-form').style.animation = 'shake 0.5s';
+    function handleSecretClick() {
+      // If NOT logged in, redirect to login page
+      if (!isLoggedIn) {
+        window.location.href = 'login.html';
         return;
       }
-
-      currentUser = email;
-      localStorage.setItem('currentVoiceUser', email);
-      showMessage('Login successful!', 'success');
-      
-      setTimeout(() => {
-        authModal.classList.remove('active');
-        showRevealSection();
-      }, 1200);
-    });
-
-    function showMessage(text, type) {
-      const msgEl = document.getElementById('auth-message');
-      msgEl.textContent = text;
-      msgEl.className = `login-message ${type}`;
+      // If logged in, do nothing (buttons are visible)
     }
 
-    function showRevealSection() {
+    if (isLoggedIn) {
+      // User is logged in - show reveal section
       revealSection.classList.add('show');
       teaserContent.style.display = 'none';
-      loginSection.style.display = 'none';
-      welcomeUser.textContent = currentUser.split('@')[0];
+      loginHint.style.display = 'none';
+      welcomeUser.textContent = savedUser.split('@')[0];
       voiceCloneCard.classList.remove('locked');
+      voiceCloneCard.style.cursor = 'default';
     }
 
-    // 🔥 ULTRA RELIABLE RICKROLL - 3 METHODS 🔥
-    revealBtn.addEventListener('click', function() {
-      this.innerHTML = ' LAUNCHING...';
-      this.disabled = true;
-      
-      // METHOD 1: window.open (new tab)
-      setTimeout(() => {
-        window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
-        
-        // METHOD 2: location.href (current tab fallback)
-        window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-        
-        console.log('🎤 RICKROLLED!');
-      }, 800);
-    });
+    // 🔥 RICKROLL 🔥
+    if (revealBtn) {
+      revealBtn.addEventListener('click', function() {
+        this.innerHTML = ' LAUNCHING...';
+        this.disabled = true;
+        setTimeout(() => {
+          window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+          window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        }, 800);
+      });
+    }
 
     // Logout
-    logoutBtn.addEventListener('click', function() {
-      localStorage.removeItem('currentVoiceUser');
-      currentUser = null;
-      revealSection.classList.remove('show');
-      teaserContent.style.display = 'block';
-      loginSection.style.display = 'flex';
-      authBtn.textContent = '🔐 Sign Up / Login';
-      voiceCloneCard.classList.add('locked');
-      location.reload();
-    });
-
-    // Modal controls
-    authBtn.addEventListener('click', () => authModal.classList.add('active'));
-    document.getElementById('close-auth').addEventListener('click', () => authModal.classList.remove('active'));
-    authModal.addEventListener('click', (e) => {
-      if (e.target === authModal) authModal.classList.remove('active');
-    });
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        localStorage.removeItem('currentVoiceUser');
+        location.reload();
+      });
+    }
   </script>
 </body>
 </html>
